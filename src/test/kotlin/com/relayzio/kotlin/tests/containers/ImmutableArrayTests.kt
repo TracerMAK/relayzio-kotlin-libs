@@ -6,6 +6,7 @@ import kotlin.test.assertNull
 import org.junit.Test
 
 import com.relayzio.kotlin.containers.ImmutableArray
+import com.relayzio.kotlin.containers.immutableArrayOf
 
 class ImmutableArrayTests {
 
@@ -41,16 +42,6 @@ class ImmutableArrayTests {
     assertEquals(3, imm.size)
   }
 
-  @Test
-  fun constructorWithNullArg() : Unit {
-    val imm = ImmutableArray<Int>(1, 2, null, 4, 5)
-
-    assertNotNull(imm)
-    assertNull(imm.get(2))
-    assertEquals(5, imm[4])
-    assertEquals(5, imm.size)
-  }    
-
   /*
   @Test
   fun constructorWithIntArrayParam() : Unit {
@@ -74,6 +65,20 @@ class ImmutableArrayTests {
     assertEquals(2, imm.get(1))
     assertEquals(5, imm.size)
   }
+  
+  @Test
+  fun immutableArrayOfTest() : Unit {
+    val imm = immutableArrayOf(5, 2, 6)
+    val imm2 = immutableArrayOf(*arrayOf("Hello", "World"))
+    
+    assertNotNull(imm)
+    assertEquals(2, imm[1])
+    assertEquals(3, imm.size)
+    
+    assertNotNull(imm2)
+    assertEquals("World", imm2[1])
+    assertEquals(2, imm2.size)
+  }
 
   @Test
   fun intElementNotMutable() : Unit {
@@ -83,6 +88,8 @@ class ImmutableArrayTests {
     assertNotNull(imm)    
     arr[2] = 10
     assertEquals(10, arr[2])
+    // The (*) spread operator copies elements from arr -> imm, therefore
+    // imm does not reference arr and its elements.
     assertEquals(2, imm[2])
   }
 
